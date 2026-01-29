@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TABASCO | Welcome</title>
+  <meta name="description" content="A modern, elegant landing page for the TABASCO web server on IIS." />
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root{
+      --bg: #0b1020;
+      --bg-soft: #10162b;
+      --fg: #e7ecf4;
+      --muted: #a7b1c2;
+      --accent: #ff6b3d; /* spicy tabasco orange */
+      --accent-2: #ffd166; /* warm yellow */
+      --card: #0f1428cc;
+      --ring: 44 100% 50%;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --grid: rgba(255,255,255,.06);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root{
+        --bg: #f7f9fc;
+        --bg-soft: #eef2f9;
+        --fg: #0b1020;
+        --muted: #3f4a5f;
+        --card: #ffffffcc;
+        --grid: rgba(0,0,0,.06);
+        --shadow: 0 10px 30px rgba(12,16,32,.10);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height:100%; }
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--fg); background: radial-gradient(1200px 800px at 100% -10%, rgba(255,107,61,.18), transparent 60%),
+               radial-gradient(1000px 700px at -10% 110%, rgba(255,209,102,.18), transparent 60%), var(--bg);
+    }
+
+    .grid-overlay{
+      position: fixed; inset:0; pointer-events:none; background:
+        linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 24px 24px;
+      mask: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,.65), transparent 70%);
+    }
+
+    header{
+      max-width: 1100px; margin: 0 auto; padding: 28px 20px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+    .logo{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background: conic-gradient(from 210deg, var(--accent), var(--accent-2), var(--accent)); box-shadow: var(--shadow); }
+    .logo svg{ filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+    .brand .name{ font-weight: 700; letter-spacing:.5px; }
+
+    .theme-toggle{
+      border: 1px solid rgba(127,139,167,.35); background: var(--card); color: var(--fg);
+      padding: 10px 14px; border-radius: 999px; backdrop-filter: blur(6px);
+      cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow: var(--shadow);
+    }
+
+    main{ max-width: 1100px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    .hero{
+      display:grid; grid-template-columns: 1.2fr 1fr; gap:32px; align-items:center;
+    }
+    @media (max-width: 900px){ .hero{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: var(--card); border: 1px solid rgba(127,139,167,.35); border-radius: var(--radius);
+      padding: 28px; box-shadow: var(--shadow); backdrop-filter: blur(6px);
+    }
+
+    h1{ margin:0 0 12px; font-size: clamp(34px, 6vw, 54px); line-height:1.05; }
+    .tagline{ color: var(--muted); font-size: clamp(16px, 2.2vw, 20px); }
+
+    .actions{ display:flex; gap:12px; margin-top: 24px; flex-wrap:wrap; }
+    .btn{
+      appearance:none; border:none; cursor:pointer; text-decoration:none; font-weight:600; letter-spacing:.2px;
+      padding:12px 16px; border-radius: 12px; transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn.primary{ background: linear-gradient(135deg, var(--accent), #ff804f); color: white; }
+    .btn.secondary{ background: transparent; color: var(--fg); border:1px solid rgba(127,139,167,.4); }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .status{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top: 16px;
+    }
+    @media (max-width: 700px){ .status{ grid-template-columns:1fr; } }
+
+    .stat{ padding:16px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,.06), transparent); border:1px solid rgba(127,139,167,.35); }
+    .stat .k{ font-size: 22px; font-weight:700; }
+    .stat .t{ color: var(--muted); font-size: 13px; }
+
+    .visual{
+      position: relative; min-height: 340px; overflow:hidden; border-radius: var(--radius);
+      border:1px solid rgba(127,139,167,.35); background: radial-gradient(120% 140% at 20% 10%, rgba(255,209,102,.12), transparent 60%), var(--bg-soft);
+    }
+
+    .orb{ position:absolute; border-radius:50%; filter: blur(10px); opacity:.8; mix-blend-mode: screen; }
+    .orb.o1{ width:200px; height:200px; background: radial-gradient(circle at 30% 30%, #fff, var(--accent)); top: -40px; left: -40px; }
+    .orb.o2{ width:300px; height:300px; background: radial-gradient(circle at 30% 30%, #fff, #ff8b5f); bottom: -60px; right: -60px; }
+    .orb.o3{ width:180px; height:180px; background: radial-gradient(circle at 30% 30%, #fff, var(--accent-2)); top: 40%; left: 50%; transform: translate(-50%, -50%);
+      animation: float 8s ease-in-out infinite; }
+
+    @keyframes float { 0%,100%{ transform: translate(-50%,-50%) translateY(-8px);} 50%{ transform: translate(-50%,-50%) translateY(8px);} }
+
+    .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px; }
+    .badge{ font-size: 12px; color: var(--muted); padding:6px 10px; border-radius:999px; border:1px dashed rgba(127,139,167,.35); background: linear-gradient(180deg, rgba(255,255,255,.06), transparent); }
+
+    footer{ max-width:1100px; margin: 0 auto; padding: 34px 20px 60px; color: var(--muted); }
+    .footwrap{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .tiny{ font-size: 12px; }
+    .links{ display:flex; gap:12px; flex-wrap:wrap; }
+    .link{ color: inherit; text-decoration:none; border-bottom: 1px dashed rgba(127,139,167,.5); }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <header>
+    <a class="brand" href="#" aria-label="TABASCO Home">
+      <span class="logo" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2l2.4 5.5L20 8l-4 3.7L17 18l-5-2.8L7 18l1-6.3L4 8l5.6-.5L12 2z" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="name">TABASCO</span>
+    </a>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme" title="Toggle light/dark">
+      <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.45 14.32l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-1v3h1zm0 19v-3h-1v3h1zM4 13H1v-1h3v1zm19 0v-1h-3v1h3zM6.76 19.16l-1.42 1.42-1.79-1.8 1.41-1.41 1.8 1.79zm12.02-12.02l1.41-1.41-1.79-1.8-1.41 1.41 1.79 1.8zM12 7a5 5 0 100 10 5 5 0 000-10z"/></svg>
+      <svg id="moon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13a9 9 0 11-10.7-10.7 1 1 0 011.21 1.21A7 7 0 1020.43 11.8a1 1 0 011.21 1.2z"/></svg>
+      <span>Theme</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="card">
+        <h1>Welcome to <span style="background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent;">TABASCO</span></h1>
+        <p class="tagline">Your IIS server is up and sizzling. This responsive landing page is a ready‑to‑go placeholder while you deploy your app.</p>
+        <div class="actions">
+          <a class="btn primary" href="#quickstart">Quick Start</a>
+          <a class="btn secondary" href="#diagnostics">Server Diagnostics</a>
+        </div>
+        <div class="status">
+          <div class="stat"><div class="k" id="uptime">—</div><div class="t">Uptime (this session)</div></div>
+          <div class="stat"><div class="k" id="ip">Detecting…</div><div class="t">Your IP (client)</div></div>
+          <div class="stat"><div class="k">IIS</div><div class="t">Windows Web Server</div></div>
+        </div>
+        <div class="badges">
+          <span class="badge">HTML5</span>
+          <span class="badge">CSS3</span>
+          <span class="badge">Vanilla JS</span>
+          <span class="badge">Responsive</span>
+        </div>
+      </div>
+
+      <div class="visual card" aria-hidden="true">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
+      </div>
+    </section>
+
+    <section id="quickstart" style="margin-top:48px;" class="card">
+      <h2 style="margin:0 0 10px;">Quick Start</h2>
+      <ol style="margin:0; padding-left: 18px; line-height:1.8; color: var(--muted);">
+        <li>Place this <code>index.html</code> into your IIS site’s root (usually <code>C:\\inetpub\\wwwroot</code>).</li>
+        <li>Open <strong>Internet Information Services (IIS) Manager</strong> → select your site → <em>Browse ":80"</em>.</li>
+        <li>Replace this page with your application when ready. Keep it as a friendly 200 OK health check.</li>
+      </ol>
+    </section>
+
+    <section id="diagnostics" style="margin-top:18px;" class="card">
+      <h2 style="margin:0 0 10px;">Diagnostics</h2>
+      <p class="tagline">Basic client-side checks below can help you confirm reachability and rendering.</p>
+      <ul style="margin:0; padding-left:18px; color: var(--muted); line-height:1.8">
+        <li><strong>Connectivity:</strong> If you can read this, static content is served correctly.</li>
+        <li><strong>Theme toggle:</strong> Verifies CSS and JS execution.</li>
+        <li><strong>Uptime counter:</strong> Verifies timers and DOM updates.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footwrap">
+      <div class="tiny">© <span id="year"></span> TABASCO • Deployed on IIS</div>
+      <div class="links">
+        <a class="link" href="#quickstart">Setup</a>
+        <a class="link" href="#diagnostics">Diagnostics</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle (persists across reloads)
+    (function(){
+      const btn = document.getElementById('themeBtn');
+      const sun = document.getElementById('sun');
+      const moon = document.getElementById('moon');
+      const key = 'tabasco-theme';
+      function apply(mode){
+        if(mode === 'light'){ document.documentElement.style.colorScheme = 'light'; sun.style.display='none'; moon.style.display='inline'; }
+        else { document.documentElement.style.colorScheme = 'dark'; sun.style.display='inline'; moon.style.display='none'; }
+      }
+      const saved = localStorage.getItem(key);
+      if(saved){ apply(saved); }
+      btn.addEventListener('click', ()=>{
+        const current = getComputedStyle(document.documentElement).colorScheme;
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem(key, next);
+        apply(next);
+      });
+    })();
+
+    // Uptime since page load
+    (function(){
+      const el = document.getElementById('uptime');
+      const t0 = Date.now();
+      function fmt(ms){
+        const s = Math.floor(ms/1000);
+        const h = Math.floor(s/3600);
+        const m = Math.floor((s%3600)/60);
+        const ss = s%60;
+        return `${h}h ${m}m ${ss}s`;
+      }
+      setInterval(()=>{ el.textContent = fmt(Date.now()-t0); }, 1000);
+    })();
+
+    // Show client IP (best-effort via WebRTC trick without remote calls). If blocked, show "Private".
+    (function(){
+      const el = document.getElementById('ip');
+      let shown = false;
+      try{
+        const pc = new RTCPeerConnection({iceServers:[]});
+        pc.createDataChannel('x');
+        pc.onicecandidate = (e)=>{
+          if(!e || !e.candidate || shown) return;
+          const c = e.candidate.candidate;
+          const m = c.match(/candidate:.* (\\d+\\.\\d+\\.\\d+\\.\\d+) /);
+          if(m){ el.textContent = m[1]; shown = true; pc.close(); }
+        };
+        pc.createOffer().then(o=>pc.setLocalDescription(o));
+        setTimeout(()=>{ if(!shown){ el.textContent = 'Private'; pc.close(); } }, 1500);
+      }catch(err){ el.textContent = 'Private'; }
+    })();
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
