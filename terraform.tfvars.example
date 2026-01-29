@@ -1,0 +1,8 @@
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "rg-appgw-demo"
+location            = "East US"
+prefix              = "demo"
+vm_size             = "Standard_B2s"
+admin_username      = "azureadmin"
+admin_password      = "YourSecurePassword123!"
